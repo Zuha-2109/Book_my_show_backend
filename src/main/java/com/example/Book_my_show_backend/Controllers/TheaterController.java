@@ -33,7 +33,7 @@ public class TheaterController {
     @GetMapping("get_by_id")
     public ResponseEntity<TheaterResponseDto> getTheatreById(@RequestParam int theaterId){
         try{
-            TheaterResponseDto theater=theaterService.getTheaterById(theatreId);
+            TheaterResponseDto theater=theaterService.getTheaterById(theaterId);
             return new ResponseEntity<>(theater,HttpStatus.FOUND);
         }catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
@@ -53,7 +53,7 @@ public class TheaterController {
     @GetMapping("/get_all_theatres_by_movie_name")
     public ResponseEntity<List<TheaterResponseDto>> getAllTheatreByMovie(@RequestParam String movieName){
         try{
-            List<TheaterResponseDto> theatreResponseDtoList=theatreService.getAllTheatreByMovie(movieName);
+            List<TheaterResponseDto> theatreResponseDtoList=theaterService.getAllTheaterByMovie(movieName);
             return new ResponseEntity<>(theatreResponseDtoList,HttpStatus.FOUND);
         }catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
