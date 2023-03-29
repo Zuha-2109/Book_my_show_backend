@@ -1,5 +1,8 @@
 package com.example.Book_my_show_backend.Controllers;
 
+import com.example.Book_my_show_backend.Models.TheaterEntity;
+
+import com.example.Book_my_show_backend.RequestDtos.TheaterRequestDto;
 import com.example.Book_my_show_backend.ResponseDtos.TheaterResponseDto;
 import com.example.Book_my_show_backend.Service.TheaterService;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -19,11 +22,13 @@ public class TheaterController {
 
     @Autowired
     TheaterService theaterService;
+    private TheaterRequestDto theaterRequestDto;
 
     @PostMapping("/create")
     public ResponseEntity<String> createTheatre(@RequestBody TheaterResponseDto theatreRequestDto){
         try{
-            theaterService.createTheater(theatreRequestDto);
+
+            theaterService.createTheater(theaterRequestDto);
         }catch (Exception e){
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -53,8 +58,8 @@ public class TheaterController {
     @GetMapping("/get_all_theatres_by_movie_name")
     public ResponseEntity<List<TheaterResponseDto>> getAllTheatreByMovie(@RequestParam String movieName){
         try{
-            List<TheaterResponseDto> theatreResponseDtoList=theaterService.getAllTheaterByMovie(movieName);
-            return new ResponseEntity<>(theatreResponseDtoList,HttpStatus.FOUND);
+            List<TheaterResponseDto> theaterResponseDtoList=theaterService.getAllTheaterByMovie(movieName);
+            return new ResponseEntity<>(theaterResponseDtoList,HttpStatus.FOUND);
         }catch (Exception e){
             return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
         }

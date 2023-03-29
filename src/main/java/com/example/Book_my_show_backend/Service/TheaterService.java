@@ -28,21 +28,21 @@ public class TheaterService {
     @Autowired
     ShowRepository showRepository;
 
-    public void createTheatre(TheaterRequestDto theatreRequestDto) throws Exception{
-        TheaterEntity theatre= TheaterConvertor.convertDtoToEntity(theatreRequestDto);
+    public void createTheater(TheaterRequestDto theaterRequestDto) throws Exception{
+        TheaterEntity theater= TheaterConvertor.convertDtoToEntity(theaterRequestDto);
 
-        List<TheaterSeatEntity> theatreSeatsList=createTheatreSeats();
+        List<TheaterSeatEntity> theaterSeatList=createTheaterSeat();
 
-        theatre.setTheaterSeatEntityList(List(theaterSeatEntityList));
+        theater.setTheaterSeatEntityList(new List(theaterSeatEntityList));
 
-        for(TheaterSeatEntity theatreSeatentity: theatre.getTheaterSeatEntityList()){
-            theatreSeatentity.setTheater(theatre);
+        for(TheaterSeatEntity theaterSeatEntity: theater.getTheaterSeatEntityList()){
+            theaterSeatEntity.setTheater(theaterSeatEntity);
         }
 
-        theaterRepository.save(theatre);
+        theaterRepository.save(theater);
     }
 
-    public List<TheaterSeatEntity> createTheatreSeats(){
+    public List<TheaterSeatEntity> createTheaterSeat(){
 
         List<TheaterSeatEntity> seats=new ArrayList<>();
 
@@ -86,43 +86,43 @@ public class TheaterService {
 
     public TheaterResponseDto getTheaterById(int theaterId)throws Exception{
         if(theaterRepository.findById(theaterId).isPresent()){
-            TheaterEntity theatre=theaterRepository.findById(theaterId).get();
-            return TheaterResponseDto.builder().id(theatre.getId()).address(theatre.getAddress())
-                    .city(theatre.getCity()).name(theatre.getName()).build();
+            TheaterEntity theater=theaterRepository.findById(theaterId).get();
+            return TheaterResponseDto.builder().id(theater.getId()).address(theater.getAddress())
+                    .city(theater.getCity()).name(theater.getName()).build();
 
         }
-        else throw new Exception("Theatre Not Found");
+        else throw new Exception("Theater Not Found");
     }
 
 
     public List<TheaterResponseDto> getAllTheater() throws Exception{
-        List<TheaterEntity> theatreList=theaterRepository.findAll();
-        List<TheaterResponseDto> theatreResponseDtoList=new ArrayList<>();
-        for(TheaterEntity theatre:theatreList){
-            TheaterResponseDto theatreResponseDto=TheaterResponseDto.builder().id(theatre.getId())
-                    .name(theatre.getName()).city(theatre.getCity()).address(theatre.getAddress()).build();
-            theatreResponseDtoList.add(theatreResponseDto);
+        List<TheaterEntity> theaterList=theaterRepository.findAll();
+        List<TheaterResponseDto> theaterResponseDtoList=new ArrayList<>();
+        for(TheaterEntity theater:theaterList){
+            TheaterResponseDto theaterResponseDto=TheaterResponseDto.builder().id(theater.getId())
+                    .name(theater.getName()).city(theater.getCity()).address(theater.getAddress()).build();
+            theaterResponseDtoList.add(theaterResponseDto);
         }
-        return theatreResponseDtoList;
+        return theaterResponseDtoList;
     }
 
 
     public List<TheaterResponseDto> getAllTheaterByMovie(String movieName){
         List<ShowEntity> showList=showRepository.findAll();
-        List<TheaterResponseDto> theatreResponseDtoList=new ArrayList<>();
+        List<TheaterResponseDto> theaterResponseDtoList=new ArrayList<>();
         for(ShowEntity show:showList){
 
-            if(show.getMovie().getName().equals(movieName)){
-                TheaterEntity theatre=show.getTheater();
-                TheaterResponseDto theatreResponseDto=TheaterResponseDto.builder().id(theatre.getId())
-                        .name(theatre.getName()).city(theatre.getCity()).address(theatre.getAddress()).build();
+            if(show.getMovie().getMovieName().equals(movieName)){
+                TheaterEntity theater=show.getTheater();
+                TheaterResponseDto theaterResponseDto=TheaterResponseDto.builder().id(theater.getId())
+                        .name(theater.getName()).city(theater.getCity()).address(theater.getAddress()).build();
 
-                if(!theatreResponseDtoList.contains(theatreResponseDto)){
-                    theatreResponseDtoList.add(theatreResponseDto);
+                if(!theaterResponseDtoList.contains(theaterResponseDto)){
+                    theaterResponseDtoList.add(theaterResponseDto);
                 }
             }
 
         }
-        return theatreResponseDtoList;
+        return theaterResponseDtoList;
     }
 }

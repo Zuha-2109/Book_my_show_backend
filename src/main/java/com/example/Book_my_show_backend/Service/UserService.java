@@ -39,14 +39,14 @@ public class UserService {
 
                 UserBookTicketDto userBookedTicketsDto=new UserBookTicketDto();
 
-                userBookTicketDto.setTicketId(ticket.getId());
-                userBookTicketDto.setAllottedSeats(ticket.getAllottedSeats());
-                userBookTicketDto.setAmount(ticket.getAmount());
-                userBookTicketDto.setShowId(show.getId());
-                userBookTicketDto.setMovieName(show.getMovie().getName());
-                userBookTicketDto.setTheatreName(show.getTheatre().getName());
-                userBookTicketDto.setShowDate(show.getShowDate());
-                userBookTicketDto.setShowTime(show.getShowTime());
+                userBookedTicketsDto.setTicketId(ticket.getId());
+                userBookedTicketsDto.setAllottedSeats(ticket.getAllottedSeat());
+                userBookedTicketsDto.setAmount(ticket.getAmount());
+                userBookedTicketsDto.setShowId(show.getId());
+                userBookedTicketsDto.setMovieName(show.getMovie().getMovieName());
+                userBookedTicketsDto.setTheaterName(show.getTheater().getName());
+                userBookedTicketsDto.setShowDate(show.getShowDate());
+                userBookedTicketsDto.setShowTime(show.getShowTime());
 
                 userBookedTicketsDtoList.add(userBookedTicketsDto);
             }

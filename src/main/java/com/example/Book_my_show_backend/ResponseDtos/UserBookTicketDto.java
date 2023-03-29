@@ -20,7 +20,7 @@ public class UserBookTicketDto {
 
     private String movieName;
 
-    private String theatreName;
+    private String theaterName;
 
     private LocalDate showDate;
 

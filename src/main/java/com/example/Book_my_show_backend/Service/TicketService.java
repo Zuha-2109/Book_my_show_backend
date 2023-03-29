@@ -33,15 +33,15 @@ public class TicketService {
 
         List<String> requestSeats=ticketRequestDto.getAllottedSeats();
 
-        List<ShowSeatEntity> showSeat=show.getShowSeatList();
+        List<ShowSeatEntity> showSeatEntity=show.getListOfSeats();
 
         List<ShowSeatEntity> bookedSeats=new ArrayList<>();
 
-        for(ShowSeatEntity seats:showSeat){
-            String seatNo= seats.getSeatNo();
-            if(!seats.isBooked() && requestSeats.contains(seatNo))
+        for(ShowSeatEntity showSeat: show.getListOfSeats()){
+            String seatNo = showSeat.getSeatNo();
+            if(!showSeat.isBooked() && requestSeats.contains(seatNo))
             {
-                bookedSeats.add(seats);
+                bookedSeats.add(showSeat);
             }
         }
 
@@ -57,8 +57,8 @@ public class TicketService {
         int rate=0;
         double amount=0;
 
-        for(ShowSeatEntity seats:bookedSeats){
-            String seatNo= seats.getSeatNo();
+        for(ShowSeatEntity showSeat:bookedSeats){
+            String seatNo= String.valueOf(showSeat.getSeatNo());
             allottedSeats=allottedSeats+seatNo+",";
 
             if(seatNo.charAt(0)=='1')
@@ -69,13 +69,13 @@ public class TicketService {
 
             amount+=rate*show.getMultiplier();
 
-            seats.setBooked(true);
-            seats.setBookedAt(new Date());
-            seats.setTicket(ticket);
-            seats.setShow(show);
+            showSeat.setBooked(true);
+            showSeat.setBookedAt(new Date());
+            showSeat.setTicket(ticket);
+            showSeat.setShow(show);
         }
 
-        ticket.setShowSeatList(bookedSeats);
+        ticket.setBookedSeats(bookedSeats);
         ticket.setBookedAt(new Date());
         ticket.setShow(show);
         ticket.setAllottedSeats(allottedSeats);

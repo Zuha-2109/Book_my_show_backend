@@ -39,19 +39,19 @@ public class ShowService {
     public void createShow(ShowRequestDto showRequestDto)throws Exception{
         ShowEntity show= ShowConvertor.convertDtoToEntity(showRequestDto);
 
-        TheaterEntity theatre=theatreRepository.findById(showRequestDto.getTheaterId()).get();
+        TheaterEntity theater=theatreRepository.findById(showRequestDto.getTheaterId()).get();
         MovieEntity movie=movieRepository.findByName(showRequestDto.getMovieName());
 
 
         show.setMovie(movie);
-        show.setTheater(theatre);
+        show.setTheater(theater);
 
-        movie.getShowList().add(show);
-        theater.getShowList().add(show);
+        movie.getListofShows().add(show);
+        theater.getListOfShows().add(show);
 
-        List<ShowSeatEntity> showSeatsList=createShowSeats(theatre.getTheaterSeatEntityList());
+        List<ShowSeatEntity> showSeatList=createShowSeats(theater.getTheaterSeatEntityList());
 
-        show.setShowSeatList(showSeatList);
+        show.setListOfSeats(showSeatList);
 
         for(ShowSeatEntity showSeats:showSeatList){
             showSeats.setShow(show);
@@ -59,7 +59,7 @@ public class ShowService {
 
 
         movieRepository.save(movie);
-        theatreRepository.save(theatre);
+        theatreRepository.save(theater);
 
         //  showRepository.save(show);
 
@@ -68,9 +68,10 @@ public class ShowService {
     public List<ShowSeatEntity> createShowSeats(List<TheaterSeatEntity> theatreSeatsList){
         List<ShowSeatEntity> seats=new ArrayList<>();
 
-        for(TheaterSeatEntity theatreSeats:theatreSeatsList){
-            ShowSeatEntity showSeats=ShowSeatEntity.builder().seatType(theatreSeats.getSeatType()).
-                    seatNo(theatreSeats.getSeatNo()).build();
+        for(TheaterSeatEntity theaterSeat:theaterSeatList){
+            ShowSeatEntity showSeats = ShowSeatEntity.builder()
+            .seatNo(theaterSeat.getSeatNo())
+            .seatType(theaterSeat.getSeatType()).build();
             seats.add(showSeats);
         }
 
@@ -98,11 +99,14 @@ public class ShowService {
             LocalDateTime showDateTime=LocalDateTime.of(show.getShowDate(),show.getShowTime());
             if(showDateTime.compareTo(from)>=0 && showDateTime.compareTo(to)<=0)
             {
-                ShowResponseDto showResponseDto=ShowResponseDto.builder().id(show.getId()).showDate(show.getShowDate())
-                        .showTime(show.getShowTime()).movieName(show.getMovie().getName())
-                        .theatreId(show.getTheater().getId()).multiplier(show.getMultiplier()).build();
+                ShowResponseDto showResponseDto=ShowResponseDto.builder()
+                        .id(show.getId()).showDate(show.getShowDate())
+                        .showTime(show.getShowTime())
+                        .movieName(show.getMovie().getMovieName())
+                        .theaterId(show.getTheater().getId()).multiplier(show.getMultiplier()).build();
                 showResponseDtoList.add(showResponseDto);
             }
+
         }
 
         return showResponseDtoList;

@@ -30,6 +30,8 @@ public class ShowEntity {
 
     private LocalTime showTime;
 
+    private double multiplier;
+
     @CreationTimestamp
     private Date createdOn;
 

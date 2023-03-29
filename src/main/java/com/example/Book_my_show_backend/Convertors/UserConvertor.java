@@ -6,7 +6,9 @@ import com.example.Book_my_show_backend.RequestDtos.UserRequestDto;
 public class UserConvertor {
 
     public static UserEntity convertDtoToEntity(UserRequestDto userRequestDto){
-        UserEntity user=UserEntity.builder().name(userRequestDto.getName()).mobileNo(userRequestDto.getMobileNo()).build();
+        UserEntity user = UserEntity.builder()
+                .name(userRequestDto.getName())
+                .mobile(userRequestDto.getMobileNo()).build();
         return user;
     }
 }
