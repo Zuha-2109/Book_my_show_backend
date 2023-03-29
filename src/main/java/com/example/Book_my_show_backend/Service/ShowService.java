@@ -64,7 +64,7 @@ public class ShowService {
         //  showRepository.save(show);
 
     }
-
+git
     public List<ShowSeatEntity> createShowSeats(List<TheaterSeatEntity> theatreSeatsList){
         List<ShowSeatEntity> seats=new ArrayList<>();
 
